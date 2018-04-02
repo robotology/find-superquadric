@@ -433,7 +433,7 @@ class Finder : public RFModule
 
         uniform_sample=(unsigned int)rf.check("uniform-sample",Value(1)).asInt();
         random_sample=rf.check("random-sample",Value(1.0)).asDouble();
-        inside_penalty=rf.check("inside-penalty",Value(10.0)).asDouble();
+        inside_penalty=rf.check("inside-penalty",Value(100.0)).asDouble();
         test_derivative=rf.check("test-derivative");
 
         removeOutliers();
