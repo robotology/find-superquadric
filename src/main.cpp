@@ -495,7 +495,7 @@ class Finder : public RFModule
         vtk_renderWindowInteractor->SetInteractorStyle(vtk_style);
 
         vtk_renderWindowInteractor->Initialize();
-        vtk_renderWindowInteractor->CreateRepeatingTimer(1);
+        vtk_renderWindowInteractor->CreateRepeatingTimer(10);
 
         vtk_updateCallback=vtkSmartPointer<UpdateCommand>::New();
         vtk_updateCallback->set_closing(closing);
