@@ -447,7 +447,9 @@ class Finder : public RFModule
         vtk_out_points->get_actor()->GetProperty()->SetColor(1.0,0.0,0.0);
         vtk_dwn_points->get_actor()->GetProperty()->SetColor(1.0,1.0,0.0);
 
-        Vector r=findSuperquadric();
+        Vector r(9,0.0);
+        if (dwn_points.size()>0)
+            r=findSuperquadric();
         vtk_superquadric=unique_ptr<Superquadric>(new Superquadric(r));
 
         vtk_renderer=vtkSmartPointer<vtkRenderer>::New();
