@@ -241,8 +241,8 @@ public:
         double bz=2.0*r[6];
 
         vtk_superquadric->SetScale(r[4],r[5],r[6]);
-        vtk_superquadric->SetPhiRoundness(r[10]);
-        vtk_superquadric->SetThetaRoundness(r[11]);
+        vtk_superquadric->SetPhiRoundness(r[7]);
+        vtk_superquadric->SetThetaRoundness(r[8]);
         
         vtk_sample->SetModelBounds(-bx,bx,-by,by,-bz,bz);
 
