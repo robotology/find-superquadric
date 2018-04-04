@@ -30,6 +30,7 @@
 #include <vtkProperty.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkPointData.h>
+#include <vtkSuperquadric.h>
 #include <vtkUnsignedCharArray.h>
 #include <vtkTransform.h>
 #include <vtkSampleFunction.h>
@@ -45,7 +46,6 @@
 #include <vtkCamera.h>
 #include <vtkInteractorStyleSwitch.h>
 
-#include "superquadric.h"
 #include "nlp.h"
 
 using namespace std;
@@ -188,7 +188,7 @@ public:
 class Superquadric : public Object
 {
 protected:
-    vtkSmartPointer<vtkSuperquadricStd> vtk_superquadric;
+    vtkSmartPointer<vtkSuperquadric> vtk_superquadric;
     vtkSmartPointer<vtkSampleFunction> vtk_sample;
     vtkSmartPointer<vtkContourFilter> vtk_contours;
     vtkSmartPointer<vtkTransform> vtk_transform;
@@ -201,7 +201,11 @@ public:
         double by=2.0*r[5];
         double bz=2.0*r[6];
 
-        vtk_superquadric=vtkSmartPointer<vtkSuperquadricStd>::New();
+        vtk_superquadric=vtkSmartPointer<vtkSuperquadric>::New();
+        vtk_superquadric->ToroidalOff();
+        vtk_superquadric->SetSize(1.0);
+        vtk_superquadric->SetCenter(zeros(3).data());
+
         vtk_superquadric->SetScale(r[4],r[5],r[6]);
         vtk_superquadric->SetPhiRoundness(r[7]);
         vtk_superquadric->SetThetaRoundness(r[8]);
