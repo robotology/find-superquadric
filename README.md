@@ -29,10 +29,7 @@ The equation of the superquadric is the following:
 - `--inside-penalty <double>`: specify how much to penalize points that will lie inside the superquadric's isosurface wrt points lying outside (default = 100.0).
 
 ### Real-time mode
-If no `--file` option is passed through the command line, the module will open up a port called `/find-superquadric/points:rpc` to which the point cloud can be sent as a `yarp::sig::Matrix` object organized per rows, where each row accounts for the following ordered information:
-```
-x y z r g b
-```
+If no `--file` option is passed through the command line, the module will open up a port called `/find-superquadric/points:rpc` to which the point cloud can be sent as a `yarp::sig::PointCloud<yarp::sig::DataXYZRGBA>` object.
 Then, the module will reply with the superquadric parameters:
 ```
 center-x center-y center-z angle size-x size-y size-z epsilon-1 epsilon-2

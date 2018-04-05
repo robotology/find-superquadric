@@ -266,7 +266,7 @@ class Finder : public RFModule
     class PointsProcessor : public PortReader {
         Finder *finder;
         bool read(ConnectionReader &connection) override {
-            Matrix points;
+            PointCloud<DataXYZRGBA> points;
             if (!points.read(connection))
                 return false;
             Bottle reply;
@@ -512,10 +512,10 @@ class Finder : public RFModule
     }
 
     /****************************************************************/
-    void process(const Matrix &points, Bottle &reply)
+    void process(const PointCloud<DataXYZRGBA> &points, Bottle &reply)
     {   
         reply.clear();
-        if (points.rows()>0)
+        if (points.size()>0)
         {
             LockGuard lg(mutex);
 
@@ -527,14 +527,14 @@ class Finder : public RFModule
 
             Vector p(3);
             vector<unsigned char> c(3);
-            for (int r=0; r<points.rows(); r++)
+            for (int i=0; i<points.size(); i++)
             {
-                p[0]=points(r,0);
-                p[1]=points(r,1);
-                p[2]=points(r,2);
-                c[0]=(unsigned char)points(r,3);
-                c[1]=(unsigned char)points(r,4);
-                c[2]=(unsigned char)points(r,5);
+                p[0]=points(i).x;
+                p[1]=points(i).y;
+                p[2]=points(i).z;
+                c[0]=points(i).r;
+                c[1]=points(i).g;
+                c[2]=points(i).b;
                 all_points.push_back(p);
                 all_colors.push_back(c);
             }
