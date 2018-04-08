@@ -357,6 +357,8 @@ class Finder : public RFModule
                 }
             }
         }
+
+        yInfo()<<"# of samples / # of inliers ="<<dwn_points.size()<<"/"<<in_points.size();
     }
 
     /****************************************************************/
