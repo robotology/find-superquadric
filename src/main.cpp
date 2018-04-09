@@ -259,7 +259,9 @@ class Finder : public RFModule
     Bottle outliersRemovalOptions;
     unsigned int uniform_sample;
     double random_sample;
+    bool from_file;
     bool test_derivative;
+    bool viewer_enabled;
     double inside_penalty;
     bool closing;
 
@@ -394,7 +396,8 @@ class Finder : public RFModule
     {
         Rand::init();
 
-        if (rf.check("file"))
+        from_file=rf.check("file");
+        if (from_file)
         {
             string file=rf.find("file").asString();
             ifstream fin(file.c_str());
@@ -441,6 +444,7 @@ class Finder : public RFModule
         random_sample=rf.check("random-sample",Value(1.0)).asDouble();
         inside_penalty=rf.check("inside-penalty",Value(100.0)).asDouble();
         test_derivative=rf.check("test-derivative");
+        viewer_enabled=!rf.check("disable-viewer");
 
         removeOutliers();
         sampleInliers();
@@ -496,21 +500,30 @@ class Finder : public RFModule
         vtk_style->SetCurrentStyleToTrackballCamera();
         vtk_renderWindowInteractor->SetInteractorStyle(vtk_style);
 
-        vtk_renderWindowInteractor->Initialize();
-        vtk_renderWindowInteractor->CreateRepeatingTimer(10);
+        if (viewer_enabled)
+        {
+            vtk_renderWindowInteractor->Initialize();
+            vtk_renderWindowInteractor->CreateRepeatingTimer(10);
 
-        vtk_updateCallback=vtkSmartPointer<UpdateCommand>::New();
-        vtk_updateCallback->set_closing(closing);
-        vtk_renderWindowInteractor->AddObserver(vtkCommand::TimerEvent,vtk_updateCallback);
-        vtk_renderWindowInteractor->Start();
-        
+            vtk_updateCallback=vtkSmartPointer<UpdateCommand>::New();
+            vtk_updateCallback->set_closing(closing);
+            vtk_renderWindowInteractor->AddObserver(vtkCommand::TimerEvent,vtk_updateCallback);
+            vtk_renderWindowInteractor->Start();
+        }
+
         return true;
+    }
+
+    /****************************************************************/
+    double getPeriod() override
+    {
+        return 1.0;
     }
 
     /****************************************************************/
     bool updateModule() override
     {
-        return false;
+        return (!from_file && !viewer_enabled);
     }
 
     /****************************************************************/

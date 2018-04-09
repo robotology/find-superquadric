@@ -27,6 +27,7 @@ The equation of the superquadric is the following:
   - `> 1` enables down-sampling
 - `--random-sample <double>`: specify the percentage in [0,1] for performing random down-sampling.
 - `--inside-penalty <double>`: specify how much to penalize points that will lie inside the superquadric's isosurface wrt points lying outside (default = 100.0).
+- `--disable-viewer`: specify not to launch the viewer.
 
 ### Real-time mode
 If no `--file` option is passed through the command line, the module will open up a port called `/find-superquadric/points:rpc` to which the point cloud can be sent as a `yarp::sig::PointCloud<yarp::sig::DataXYZRGBA>` object.
