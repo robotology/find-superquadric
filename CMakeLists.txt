@@ -25,7 +25,7 @@ find_package(IPOPT REQUIRED)
 find_package(VTK REQUIRED)
 include(${VTK_USE_FILE})
 
-include_directories(${PROJECT_SOURCE_DIR}/src ${YARP_INCLUDE_DIRS} ${IPOPT_INCLUDE_DIRS})
+include_directories(${PROJECT_SOURCE_DIR}/src ${IPOPT_INCLUDE_DIRS})
 add_definitions(${IPOPT_DEFINITIONS} -D_USE_MATH_DEFINES)
 add_executable(${PROJECT_NAME} src/nlp.h src/nlp.cpp src/main.cpp)
 set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS " ${IPOPT_LINK_FLAGS}")
