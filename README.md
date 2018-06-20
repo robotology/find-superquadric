@@ -26,7 +26,7 @@ The equation of the superquadric is the following:
   - `1` means no down-sampling
   - `> 1` enables down-sampling
 - `--random-sample <double>`: specify the percentage in [0,1] for performing random down-sampling.
-- `--inside-penalty <double>`: specify how much to penalize points that will lie inside the superquadric's isosurface wrt points lying outside (default = 100.0).
+- `--inside-penalty <double>`: specify how much to penalize points that will lie inside the superquadric's isosurface wrt points lying outside (default = 1.0).
 - `--disable-viewer`: specify not to launch the viewer.
 
 ### Real-time mode

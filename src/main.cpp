@@ -217,7 +217,7 @@ public:
 
         vtk_contours=vtkSmartPointer<vtkContourFilter>::New();
         vtk_contours->SetInputConnection(vtk_sample->GetOutputPort());
-        vtk_contours->GenerateValues(1,1.0,1.0);
+        vtk_contours->GenerateValues(1,0.0,0.0);
 
         vtk_mapper=vtkSmartPointer<vtkPolyDataMapper>::New();
         vtk_mapper->SetInputConnection(vtk_contours->GetOutputPort());
@@ -442,7 +442,7 @@ class Finder : public RFModule
 
         uniform_sample=(unsigned int)rf.check("uniform-sample",Value(1)).asInt();
         random_sample=rf.check("random-sample",Value(1.0)).asDouble();
-        inside_penalty=rf.check("inside-penalty",Value(100.0)).asDouble();
+        inside_penalty=rf.check("inside-penalty",Value(1.0)).asDouble();
         test_derivative=rf.check("test-derivative");
         viewer_enabled=!rf.check("disable-viewer");
 
