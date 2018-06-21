@@ -215,6 +215,8 @@ public:
         vtk_sample->SetImplicitFunction(vtk_superquadric);
         vtk_sample->SetModelBounds(-bx,bx,-by,by,-bz,bz);
 
+        // The isosurface is defined at 0.0 as specified in
+        // https://github.com/Kitware/VTK/blob/master/Common/DataModel/vtkSuperquadric.cxx
         vtk_contours=vtkSmartPointer<vtkContourFilter>::New();
         vtk_contours->SetInputConnection(vtk_sample->GetOutputPort());
         vtk_contours->GenerateValues(1,0.0,0.0);
