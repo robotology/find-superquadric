@@ -223,10 +223,11 @@ public:
 
         vtk_mapper=vtkSmartPointer<vtkPolyDataMapper>::New();
         vtk_mapper->SetInputConnection(vtk_contours->GetOutputPort());
-        vtk_mapper->SetScalarRange(0.0,1.2);
+        vtk_mapper->ScalarVisibilityOff();
 
         vtk_actor=vtkSmartPointer<vtkActor>::New();
         vtk_actor->SetMapper(vtk_mapper);
+        vtk_actor->GetProperty()->SetColor(0.0,0.3,0.6);
         vtk_actor->GetProperty()->SetOpacity(0.25);
 
         vtk_transform=vtkSmartPointer<vtkTransform>::New();
