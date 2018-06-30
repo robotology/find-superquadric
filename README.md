@@ -39,7 +39,7 @@ The `angle` around the z-axis is returned in degrees.
 
 ### Example
 ```sh
-find-superquadric --file ./data/box
+find-superquadric.exe --file ./data/cylinder --remove-outliers "(0.01 10)" --random-sample 0.2
 ```
 
 ### Output
