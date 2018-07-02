@@ -371,6 +371,7 @@ class Finder : public RFModule
     {
         Ipopt::SmartPtr<Ipopt::IpoptApplication> app=new Ipopt::IpoptApplication;
         app->Options()->SetNumericValue("tol",1e-6);
+        app->Options()->SetNumericValue("constr_viol_tol",1e-3);
         app->Options()->SetIntegerValue("acceptable_iter",0);
         app->Options()->SetStringValue("mu_strategy","adaptive");
         app->Options()->SetIntegerValue("max_iter",1000);
