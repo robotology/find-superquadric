@@ -1,8 +1,8 @@
 # find-superquadric
-Run optimization problem to find out the best superquadric that fits a given partial point cloud.
+Solve an optimization problem to find out the best superquadric that fits a given partial point cloud.
 
 ### Note
-The superquadric is parametrized in terms of its center, the shape, the principal axes and a rotation angle around the z-axis, in order to account for objects that are supposed to be lying on a table parallel to the x-y plane, while keeping things simple :wink:
+The superquadric is parametrized in terms of its center, the shape, the principal axes and a rotation angle around the z-axis, in order to account for objects that are supposed to be lying on a table parallel to the x-y plane (to keep things simple :wink:)
 
 The equation of the superquadric is the following:
 
@@ -39,7 +39,7 @@ The `angle` around the z-axis is returned in degrees, whereas `center-*` and `si
 
 ### Example
 ```sh
-find-superquadric.exe --file ./data/cylinder --remove-outliers "(0.01 10)" --random-sample 0.2
+$ find-superquadric --file ./data/cylinder --remove-outliers "(0.01 10)" --random-sample 0.2
 ```
 
 ### Output
