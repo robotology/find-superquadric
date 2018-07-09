@@ -28,17 +28,12 @@ find_package(IPOPT REQUIRED)
 find_package(VTK REQUIRED)
 include(${VTK_USE_FILE})
 
-include_directories(${PROJECT_SOURCE_DIR}/src ${IPOPT_INCLUDE_DIRS})
 add_definitions(${IPOPT_DEFINITIONS} -D_USE_MATH_DEFINES)
+include_directories(${PROJECT_SOURCE_DIR}/src ${IPOPT_INCLUDE_DIRS})
+
 add_executable(${PROJECT_NAME} src/nlp.h src/nlp.cpp src/main.cpp)
 set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS " ${IPOPT_LINK_FLAGS}")
 
-target_link_libraries(${PROJECT_NAME} ${YARP_LIBRARIES} ${IPOPT_LIBRARIES})
-if(VTK_LIBRARIES)
-  target_link_libraries(${PROJECT_NAME} ${VTK_LIBRARIES})
-else()
-  target_link_libraries(${PROJECT_NAME} vtkHybrid vtkWidgets)
-endif()
+target_link_libraries(${PROJECT_NAME} ${YARP_LIBRARIES} ${IPOPT_LIBRARIES} ${VTK_LIBRARIES})
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
-
