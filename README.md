@@ -21,7 +21,8 @@ The equation of the superquadric is the following:
   x1 y1 z1 [r1 g1 b1]
   ...
   ```
-- `--remove-outliers "(<radius> <minpts>)"`: outliers removal based on spatial density clustering. The aggregation of points in clusters is regulated through the distance radius, whereas minpts represents the minimum number of neighbours of a valid cluster. Only points belonging to the largest cluster will survive as inliers.
+  RGB colors are optional.
+- `--remove-outliers "(<radius> <minpts>)"`: outliers removal based on spatial density clustering. The aggregation of points in clusters is regulated through the distance _radius_, whereas _minpts_ represents the minimum number of points of a valid cluster. Only points belonging to the largest cluster will survive as inliers.
 - `--uniform-sample <int>`: specify the integer step for performing uniform down-sampling as follows:
   - `1` means no down-sampling
   - `> 1` enables down-sampling
