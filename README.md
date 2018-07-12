@@ -21,7 +21,7 @@ The equation of the superquadric is the following:
   x1 y1 z1 [r1 g1 b1]
   ...
   ```
-- `--remove-outliers "(<radius> <neighbors>)"`: remove those points (outliers) that do not have a specified number of neighbors contained within a given radius.
+- `--remove-outliers "(<radius> <minpts>)"`: outliers removal based on spatial density clustering. The aggregation of points in clusters is regulated through the distance radius, whereas minpts represents the minimum number of neighbours of a valid cluster. Only points belonging to the largest cluster will survive as inliers.
 - `--uniform-sample <int>`: specify the integer step for performing uniform down-sampling as follows:
   - `1` means no down-sampling
   - `> 1` enables down-sampling
@@ -39,8 +39,8 @@ The `angle` around the z-axis is returned in degrees, whereas `center-*` and `si
 
 ### Example
 ```sh
-$ find-superquadric --file ./data/cylinder --remove-outliers "(0.01 10)" --random-sample 0.2
+$ find-superquadric --remove-outliers "(0.01 10)" --random-sample 0.2 --file ./data/cylinder
 ```
 
 ### Output
-![output](./misc/output.png)
+![output](./misc/output.gif)

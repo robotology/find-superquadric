@@ -15,6 +15,7 @@
 #include <cmath>
 #include <vector>
 #include <set>
+#include <map>
 #include <algorithm>
 #include <string>
 #include <sstream>
@@ -24,6 +25,8 @@
 #include <yarp/sig/all.h>
 #include <yarp/math/Math.h>
 #include <yarp/math/Rand.h>
+
+#include <iCub/ctrl/clustering.h>
 
 #include <vtkSmartPointer.h>
 #include <vtkCommand.h>
@@ -35,7 +38,6 @@
 #include <vtkTransform.h>
 #include <vtkSampleFunction.h>
 #include <vtkContourFilter.h>
-#include <vtkRadiusOutlierRemoval.h>
 #include <vtkActor.h>
 #include <vtkOrientationMarkerWidget.h>
 #include <vtkAxesActor.h>
@@ -52,6 +54,7 @@ using namespace std;
 using namespace yarp::os;
 using namespace yarp::sig;
 using namespace yarp::math;
+using namespace iCub::ctrl;
 
 Mutex mutex;
 
@@ -304,30 +307,33 @@ class Finder : public RFModule
     /****************************************************************/
     void removeOutliers()
     {
+        double t0=Time::now();
         if (outliersRemovalOptions.size()>=2)
         {
             double radius=outliersRemovalOptions.get(0).asDouble();
-            int neighbors=outliersRemovalOptions.get(1).asInt();
+            int minpts=outliersRemovalOptions.get(1).asInt();
 
-            vtkSmartPointer<vtkPoints> vtk_points=vtkSmartPointer<vtkPoints>::New();
-            for (size_t i=0; i<all_points.size(); i++)
-                vtk_points->InsertNextPoint(all_points[i][0],all_points[i][1],all_points[i][2]);
+            Property options;
+            options.put("epsilon",radius);
+            options.put("minpts",minpts);
 
-            vtkSmartPointer<vtkPolyData> vtk_polydata=vtkSmartPointer<vtkPolyData>::New();
-            vtk_polydata->SetPoints(vtk_points);
+            DBSCAN dbscan;
+            map<size_t,set<size_t>> clusters=dbscan.cluster(all_points,options);
 
-            vtkSmartPointer<vtkRadiusOutlierRemoval> removal=vtkSmartPointer<vtkRadiusOutlierRemoval>::New();
-            removal->SetInputData(vtk_polydata);
-            removal->SetRadius(radius);
-            removal->SetNumberOfNeighbors(neighbors);
-            removal->Update();
+            size_t largest_class; size_t largest_size=0;
+            for (auto it=begin(clusters); it!=end(clusters); it++)
+            {
+                if (it->second.size()>largest_size)
+                {
+                    largest_size=it->second.size();
+                    largest_class=it->first;
+                }
+            }
 
-            yInfo()<<"# of outliers removed / # of points ="
-                   <<removal->GetNumberOfPointsRemoved()<<"/"<<all_points.size();
-
+            auto &c=clusters[largest_class];
             for (size_t i=0; i<all_points.size(); i++)
             {
-                if (removal->GetPointMap()[i]<0)
+                if (c.find(i)==end(c))
                     out_points.push_back(all_points[i]);
                 else
                     in_points.push_back(all_points[i]);
@@ -335,11 +341,16 @@ class Finder : public RFModule
         }
         else
             in_points=all_points;
+
+        double t1=Time::now();
+        yInfo()<<out_points.size()<<"outliers removed out of"
+               <<all_points.size()<<"points in"<<t1-t0<<"[s]";
     }
 
     /****************************************************************/
     void sampleInliers()
     {
+        double t0=Time::now();
         if (random_sample>=1.0)
         {
             unsigned int cnt=0;
@@ -363,7 +374,9 @@ class Finder : public RFModule
             }
         }
 
-        yInfo()<<"# of samples / # of inliers ="<<dwn_points.size()<<"/"<<in_points.size();
+        double t1=Time::now();
+        yInfo()<<dwn_points.size()<<"samples out of"
+               <<in_points.size()<<"inliers in"<<t1-t0<<"[s]";
     }
 
     /****************************************************************/
