@@ -463,6 +463,17 @@ class Finder : public RFModule
         test_derivative=rf.check("test-derivative");
         viewer_enabled=!rf.check("disable-viewer");
 
+        vector<double> backgroundColor={0.7,0.7,0.7};
+        if (rf.check("background-color"))
+        {
+            if (const Bottle *ptr=rf.find("background-color").asList())
+            {
+                size_t len=std::min(backgroundColor.size(),ptr->size());
+                for (size_t i=0; i<len; i++)
+                    backgroundColor[i]=ptr->get(i).asDouble();
+            }
+        }
+
         removeOutliers();
         sampleInliers();
 
@@ -491,7 +502,7 @@ class Finder : public RFModule
         if (dwn_points.size()!=in_points.size())
             vtk_renderer->AddActor(vtk_dwn_points->get_actor());
         vtk_renderer->AddActor(vtk_superquadric->get_actor());
-        vtk_renderer->SetBackground(0.1,0.2,0.2);
+        vtk_renderer->SetBackground(backgroundColor.data());
 
         vtk_axes=vtkSmartPointer<vtkAxesActor>::New();     
         vtk_widget=vtkSmartPointer<vtkOrientationMarkerWidget>::New();
