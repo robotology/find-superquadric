@@ -9,7 +9,7 @@ The equation of the superquadric is the following:
 ![equation](./misc/equation.png)
 
 ### Dependencies
-- [Yarp](https://github.com/robotology/yarp)
+- [YARP](https://github.com/robotology/yarp)
 - [iCub](https://github.com/robotology/icub-main)
 - [Ipopt](https://github.com/coin-or/Ipopt)
 - [VTK](https://github.com/Kitware/VTK)
@@ -29,6 +29,8 @@ The equation of the superquadric is the following:
 - `--random-sample <double>`: specify the percentage in [0,1] for performing random down-sampling.
 - `--inside-penalty <double>`: specify how much to penalize points that will lie inside the superquadric's isosurface wrt points lying outside (default = 1.0).
 - `--disable-viewer`: specify not to launch the viewer.
+- `--color "(<r> <g> <b>)"`: change the color of the superquadric by specifying RGB components as double in the range [0,1].
+- `--opacity <double>`: specify the opacity of the superquadric as double in the range [0,1].
 - `--background-color "(<r> <g> <b>)"`: change background color by specifying RGB components as double in the range [0,1]. 
 
 ### Real-time mode

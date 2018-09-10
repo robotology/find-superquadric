@@ -2,7 +2,7 @@
 # All Rights Reserved.
 # Authors: Ugo Pattacini <ugo.pattacini@iit.it>
 
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.5)
 project(find-superquadric)
 
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -20,7 +20,7 @@ if(NOT MSVC)
   set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif()
 
-find_package(YARP REQUIRED)
+find_package(YARP 3.0.0 REQUIRED)
 find_package(ICUB REQUIRED)
 list(APPEND CMAKE_MODULE_PATH ${ICUB_MODULE_PATH})
 

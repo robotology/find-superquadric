@@ -198,7 +198,8 @@ protected:
 
 public:
     /****************************************************************/
-    Superquadric(const Vector &r)
+    Superquadric(const Vector &r, const vector<double> &color,
+                 const double opacity)
     {
         double bx=2.0*r[4];
         double by=2.0*r[5];
@@ -230,8 +231,8 @@ public:
 
         vtk_actor=vtkSmartPointer<vtkActor>::New();
         vtk_actor->SetMapper(vtk_mapper);
-        vtk_actor->GetProperty()->SetColor(0.0,0.3,0.6);
-        vtk_actor->GetProperty()->SetOpacity(0.25);
+        vtk_actor->GetProperty()->SetColor(color[0],color[1],color[2]);
+        vtk_actor->GetProperty()->SetOpacity(opacity);
 
         vtk_transform=vtkSmartPointer<vtkTransform>::New();
         vtk_transform->Translate(r.subVector(0,2).data());
@@ -463,6 +464,19 @@ class Finder : public RFModule
         test_derivative=rf.check("test-derivative");
         viewer_enabled=!rf.check("disable-viewer");
 
+        vector<double> color={0.0,0.3,0.6};
+        if (rf.check("color"))
+        {
+            if (const Bottle *ptr=rf.find("color").asList())
+            {
+                size_t len=std::min(color.size(),ptr->size());
+                for (size_t i=0; i<len; i++)
+                    color[i]=ptr->get(i).asDouble();
+            }
+        }
+
+        double opacity=rf.check("opacity",Value(0.25)).asDouble();
+
         vector<double> backgroundColor={0.7,0.7,0.7};
         if (rf.check("background-color"))
         {
@@ -488,7 +502,7 @@ class Finder : public RFModule
         Vector r(9,0.0);
         if (dwn_points.size()>0)
             r=findSuperquadric();
-        vtk_superquadric=unique_ptr<Superquadric>(new Superquadric(r));
+        vtk_superquadric=unique_ptr<Superquadric>(new Superquadric(r,color,opacity));
 
         vtk_renderer=vtkSmartPointer<vtkRenderer>::New();
         vtk_renderWindow=vtkSmartPointer<vtkRenderWindow>::New();
