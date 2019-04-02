@@ -201,16 +201,16 @@ public:
     Superquadric(const Vector &r, const vector<double> &color,
                  const double opacity)
     {
-        double bx=2.0*r[4];
-        double by=2.0*r[5];
-        double bz=2.0*r[6];
+        double bx=r[4];
+        double by=r[6];
+        double bz=r[5];
 
         vtk_superquadric=vtkSmartPointer<vtkSuperquadric>::New();
         vtk_superquadric->ToroidalOff();
         vtk_superquadric->SetSize(1.0);
         vtk_superquadric->SetCenter(zeros(3).data());
 
-        vtk_superquadric->SetScale(r[4],r[5],r[6]);
+        vtk_superquadric->SetScale(bx,by,bz);
         vtk_superquadric->SetPhiRoundness(r[7]);
         vtk_superquadric->SetThetaRoundness(r[8]);
 
@@ -237,25 +237,32 @@ public:
         vtk_transform=vtkSmartPointer<vtkTransform>::New();
         vtk_transform->Translate(r.subVector(0,2).data());
         vtk_transform->RotateZ(r[3]);
+        vtk_transform->RotateX(-90.0);
         vtk_actor->SetUserTransform(vtk_transform);
     }
 
     /****************************************************************/
     void set_parameters(const Vector &r)
     {
-        double bx=2.0*r[4];
-        double by=2.0*r[5];
-        double bz=2.0*r[6];
+        // Note: roundness parameter for axes x and y is shared in SQ model,
+        //       but VTK shares axes x and z (ThetaRoundness).
+        //       To get a good display, directions of axes y and z need to be swapped
+        //       => parameters for y and z are inverted and a rotation of -90 degrees around x is added
 
-        vtk_superquadric->SetScale(r[4],r[5],r[6]);
-        vtk_superquadric->SetPhiRoundness(r[7]);
-        vtk_superquadric->SetThetaRoundness(r[8]);
-        
+        double bx=r[4];
+        double by=r[6];
+        double bz=r[5];
+
+        vtk_superquadric->SetScale(bx,by,bz);
+        vtk_superquadric->SetPhiRoundness(r[7]); // roundness along model z axis (vtk y axis)
+        vtk_superquadric->SetThetaRoundness(r[8]); // common roundness along model x and y axes (vtk x and z axes)
+
         vtk_sample->SetModelBounds(-bx,bx,-by,by,-bz,bz);
 
         vtk_transform->Identity();
         vtk_transform->Translate(r.subVector(0,2).data());
-        vtk_transform->RotateZ(r[3]);
+        vtk_transform->RotateZ(r[3]); // rotate around vertical
+        vtk_transform->RotateX(-90.0); // rotate to invert y and z
     }
 };
 
