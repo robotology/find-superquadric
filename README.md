@@ -39,7 +39,7 @@ Then, the module will reply with the superquadric parameters:
 ```
 center-x center-y center-z angle size-x size-y size-z epsilon-1 epsilon-2
 ```
-The `angle` around the z-axis is returned in degrees, whereas `center-*` and `size-*` are expressed in meters.
+The `angle` around the z-axis is returned in degrees, whereas `center-*` and `size-*` are expressed in the same length units of the input point cloud.
 
 ### Example
 ```sh
