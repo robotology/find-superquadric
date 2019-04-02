@@ -237,7 +237,7 @@ public:
         vtk_transform=vtkSmartPointer<vtkTransform>::New();
         vtk_transform->Translate(r.subVector(0,2).data());
         vtk_transform->RotateZ(r[3]);
-        vtk_transform->RotateX(-90);
+        vtk_transform->RotateX(-90.0);
         vtk_actor->SetUserTransform(vtk_transform);
     }
 
@@ -246,7 +246,7 @@ public:
     {
         // Note: roundness parameter for axes x and y is shared in SQ model,
         //       but VTK shares axes x and z (ThetaRoundness).
-        //       To get a good display, directions of axes y and z need to be swaped
+        //       To get a good display, directions of axes y and z need to be swapped
         //       => parameters for y and z are inverted and a rotation of -90 degrees around x is added
 
         double bx=r[4];
@@ -262,7 +262,7 @@ public:
         vtk_transform->Identity();
         vtk_transform->Translate(r.subVector(0,2).data());
         vtk_transform->RotateZ(r[3]); // rotate around vertical
-        vtk_transform->RotateX(-90); // rotate to invert y and z
+        vtk_transform->RotateX(-90.0); // rotate to invert y and z
     }
 };
 
