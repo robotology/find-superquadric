@@ -2,7 +2,9 @@
 Solve an optimization problem to find out the best superquadric that fits a given partial point cloud.
 
 ### Note
-The superquadric is parametrized in terms of its center, the shape, the principal axes and a rotation angle around the z-axis, in order to account for objects that are supposed to be lying on a table parallel to the x-y plane (to keep things simple :wink:)
+The superquadric is parametrized in terms of its center, the shape, the principal axes and a rotation angle around the z-axis, in order to account for objects that are supposed to be lying on a table parallel to the x-y plane (to keep things simple :wink:).
+
+:warning: If the input point cloud does not guarantee that the above assumptions hold, it will need to be first transformed through a convenient rototraslation.
 
 The equation of the superquadric is the following:
 
