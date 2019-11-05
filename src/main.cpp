@@ -12,6 +12,7 @@
 
 #include <cstdlib>
 #include <memory>
+#include <mutex>
 #include <cmath>
 #include <vector>
 #include <set>
@@ -56,7 +57,7 @@ using namespace yarp::sig;
 using namespace yarp::math;
 using namespace iCub::ctrl;
 
-Mutex mutex;
+mutex mtx;
 
 /****************************************************************/
 class UpdateCommand : public vtkCommand
@@ -86,7 +87,7 @@ public:
     void Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), 
                  void *vtkNotUsed(callData))
     {
-        LockGuard lg(mutex);
+        lock_guard<mutex> lck(mtx);
         vtkRenderWindowInteractor* iren=static_cast<vtkRenderWindowInteractor*>(caller);
         if (closing!=nullptr)
         {
@@ -581,7 +582,7 @@ class Finder : public RFModule
         reply.clear();
         if (points.size()>0)
         {
-            LockGuard lg(mutex);
+            lock_guard<mutex> lck(mtx);
 
             all_points.clear();
             all_colors.clear();
@@ -620,7 +621,7 @@ class Finder : public RFModule
     /****************************************************************/
     bool respond(const Bottle &command, Bottle &reply) override
     {
-        LockGuard lg(mutex);
+        lock_guard<mutex> lck(mtx);
 
         bool ok=false;
         if (command.check("remove-outliers"))
