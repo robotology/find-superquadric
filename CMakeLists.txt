@@ -26,7 +26,10 @@ list(APPEND CMAKE_MODULE_PATH ${ICUB_MODULE_PATH})
 
 find_package(IPOPT REQUIRED)
 find_package(VTK REQUIRED)
-include(${VTK_USE_FILE})
+message (STATUS "VTK_VERSION: ${VTK_VERSION}")
+if (VTK_VERSION VERSION_LESS "8.90.0")
+  include(${VTK_USE_FILE})
+endif()
 
 add_definitions(${IPOPT_DEFINITIONS} -D_USE_MATH_DEFINES)
 include_directories(${PROJECT_SOURCE_DIR}/src ${IPOPT_INCLUDE_DIRS})
@@ -35,5 +38,9 @@ add_executable(${PROJECT_NAME} src/nlp.h src/nlp.cpp src/main.cpp)
 set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS " ${IPOPT_LINK_FLAGS}")
 
 target_link_libraries(${PROJECT_NAME} ${YARP_LIBRARIES} ${IPOPT_LIBRARIES} ${VTK_LIBRARIES} ctrlLib)
+
+if (VTK_VERSION VERSION_GREATER_EQUAL "8.90.0")
+  vtk_module_autoinit(TARGETS ${PROJECT_NAME} MODULES ${VTK_LIBRARIES})
+endif()
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
