@@ -54,3 +54,11 @@ $ find-superquadric --remove-outliers "(0.01 10)" --random-sample 0.2 --file ./d
 
 ### Output
 ![output](./misc/output.gif)
+
+### 👨🏻‍💻 Maintainers
+This repository is maintained by:
+
+| | |
+|:---:|:---:|
+| [<img src="https://github.com/pattacini.png" width="40">](https://github.com/pattacini) | [@pattacini](https://github.com/pattacini) |
+
