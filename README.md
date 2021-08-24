@@ -1,7 +1,7 @@
 Fit a partial point cloud with a superquadric
 =============================================
 
-[![Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/robotology/find-superquadric)
+[![Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer)
 
 Solve an optimization problem to find out the best superquadric that fits a given partial point cloud.
 
