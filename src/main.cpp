@@ -319,8 +319,8 @@ class Finder : public RFModule
         double t0=Time::now();
         if (outliersRemovalOptions.size()>=2)
         {
-            double radius=outliersRemovalOptions.get(0).asDouble();
-            int minpts=outliersRemovalOptions.get(1).asInt();
+            double radius=outliersRemovalOptions.get(0).asFloat64();
+            int minpts=outliersRemovalOptions.get(1).asInt32();
 
             Property options;
             options.put("epsilon",radius);
@@ -466,9 +466,9 @@ class Finder : public RFModule
             if (const Bottle *ptr=rf.find("remove-outliers").asList())
                 outliersRemovalOptions=*ptr;
 
-        uniform_sample=(unsigned int)rf.check("uniform-sample",Value(1)).asInt();
-        random_sample=rf.check("random-sample",Value(1.0)).asDouble();
-        inside_penalty=rf.check("inside-penalty",Value(1.0)).asDouble();
+        uniform_sample=(unsigned int)rf.check("uniform-sample",Value(1)).asInt32();
+        random_sample=rf.check("random-sample",Value(1.0)).asFloat64();
+        inside_penalty=rf.check("inside-penalty",Value(1.0)).asFloat64();
         test_derivative=rf.check("test-derivative");
         viewer_enabled=!rf.check("disable-viewer");
 
@@ -479,11 +479,11 @@ class Finder : public RFModule
             {
                 size_t len=std::min(color.size(),ptr->size());
                 for (size_t i=0; i<len; i++)
-                    color[i]=ptr->get(i).asDouble();
+                    color[i]=ptr->get(i).asFloat64();
             }
         }
 
-        double opacity=rf.check("opacity",Value(0.25)).asDouble();
+        double opacity=rf.check("opacity",Value(0.25)).asFloat64();
 
         vector<double> backgroundColor={0.7,0.7,0.7};
         if (rf.check("background-color"))
@@ -492,7 +492,7 @@ class Finder : public RFModule
             {
                 size_t len=std::min(backgroundColor.size(),ptr->size());
                 for (size_t i=0; i<len; i++)
-                    backgroundColor[i]=ptr->get(i).asDouble();
+                    backgroundColor[i]=ptr->get(i).asFloat64();
             }
         }
 
@@ -633,23 +633,23 @@ class Finder : public RFModule
 
         if (command.check("uniform-sample"))
         {
-            uniform_sample=(unsigned int)command.find("uniform-sample").asInt();
+            uniform_sample=(unsigned int)command.find("uniform-sample").asInt32();
             ok=true;
         }
 
         if (command.check("random-sample"))
         {
-            random_sample=command.find("random-sample").asDouble();
+            random_sample=command.find("random-sample").asFloat64();
             ok=true;
         }
 
         if (command.check("inside-penalty"))
         {
-            inside_penalty=command.find("inside-penalty").asDouble();
+            inside_penalty=command.find("inside-penalty").asFloat64();
             ok=true;
         }
 
-        reply.addVocab(Vocab::encode(ok?"ack":"nack"));
+        reply.addVocab32(ok?"ack":"nack");
         return true;
     }
 
