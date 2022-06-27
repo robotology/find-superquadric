@@ -12,7 +12,7 @@ The superquadric is parametrized in terms of its center, the shape, the principa
 
 The equation of the superquadric is the following:
 
-![equation](./misc/equation.png)
+# $\left( \left| \frac{x-c_x}{s_x} \right|^\frac{2}{\epsilon_2} + \left| \frac{y-c_y}{s_y} \right|^\frac{2}{\epsilon_2} \right)^\frac{\epsilon_2}{\epsilon_1} + \left| \frac{z-c_z}{s_z} \right|^\frac{2}{\epsilon_1} = 1$
 
 ### Dependencies
 - [YARP](https://github.com/robotology/yarp)
