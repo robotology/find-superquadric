@@ -6,7 +6,7 @@ Fit a partial point cloud with a superquadric
 Solve an optimization problem to find out the best superquadric that fits a given partial point cloud.
 
 ### Note
-The superquadric is parametrized in terms of its center, the shape, the principal axes and a rotation angle around the z-axis, in order to account for objects that are supposed to be lying on a table parallel to the x-y plane (to keep things simple :wink:).
+The superquadric is parametrized in terms of its center, shape, the principal axes, and a rotation angle around the z-axis, in order to account for objects that are supposed to be lying on a table parallel to the x-y plane (to keep things simple 😉).
 
 :warning: If the input point cloud does not guarantee that the above assumptions hold, it will need to be first transformed through a convenient rototraslation.
 
@@ -28,7 +28,7 @@ The equation of the superquadric is the following:
   ...
   ```
   RGB colors are optional.
-- `--remove-outliers "(<radius> <minpts>)"`: outliers removal based on spatial density clustering. The aggregation of points in clusters is regulated through the distance _radius_, whereas _minpts_ represents the minimum number of points of a valid cluster. Only points belonging to the largest cluster will survive as inliers.
+- `--remove-outliers "(<radius> <minpts>)"`: outliers removal based on [spatial density clustering][dbscan]. The aggregation of points in clusters is regulated through the distance _radius_, whereas _minpts_ represents the minimum number of points of a valid cluster. Only points belonging to the largest cluster will survive as inliers.
 - `--uniform-sample <int>`: specify the integer step for performing uniform down-sampling as follows:
   - `1` means no down-sampling
   - `> 1` enables down-sampling
@@ -37,7 +37,9 @@ The equation of the superquadric is the following:
 - `--disable-viewer`: specify not to launch the viewer.
 - `--color "(<r> <g> <b>)"`: change the color of the superquadric by specifying RGB components as double in the range [0,1].
 - `--opacity <double>`: specify the opacity of the superquadric as double in the range [0,1].
-- `--background-color "(<r> <g> <b>)"`: change background color by specifying RGB components as double in the range [0,1]. 
+- `--background-color "(<r> <g> <b>)"`: change the background color by specifying RGB components as double in the range [0,1]. 
+
+[dbscan]: https://en.wikipedia.org/wiki/DBSCAN
 
 ### Real-time mode
 If no `--file` option is passed through the command line, the module will open up a port called `/find-superquadric/points:rpc` to which the point cloud can be sent as a `yarp::sig::PointCloud<yarp::sig::DataXYZRGBA>` object.
@@ -61,4 +63,3 @@ This repository is maintained by:
 | | |
 |:---:|:---:|
 | [<img src="https://github.com/pattacini.png" width="40">](https://github.com/pattacini) | [@pattacini](https://github.com/pattacini) |
-
